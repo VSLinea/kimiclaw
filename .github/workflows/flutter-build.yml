@@ -17,23 +17,20 @@ jobs:
           flutter-version: '3.16.0'
           channel: 'stable'
       
-      - name: Create Flutter project structure
-        working-directory: ./apps/mobile
+      - name: Create Flutter project
+        working-directory: ./apps
         run: |
-          # Backup current files
-          mkdir -p /tmp/flutter_backup
-          cp -r lib /tmp/flutter_backup/
-          cp pubspec.yaml /tmp/flutter_backup/
+          # Save our code
+          mv mobile mobile_backup
           
-          # Create new Flutter project
-          cd ..
-          rm -rf mobile
-          flutter create --project-name mobile mobile
+          # Create fresh Flutter project
+          flutter create --org com.foundation --project-name mobile mobile
           
-          # Restore files
-          cp -r /tmp/flutter_backup/lib mobile/
-          cp /tmp/flutter_backup/pubspec.yaml mobile/
-          cd mobile
+          # Restore our code
+          rm -rf mobile/lib
+          mv mobile_backup/lib mobile/
+          mv mobile_backup/pubspec.yaml mobile/
+          rm -rf mobile_backup
       
       - name: Get dependencies
         working-directory: ./apps/mobile
