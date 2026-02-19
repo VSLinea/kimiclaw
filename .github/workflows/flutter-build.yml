@@ -37,24 +37,23 @@ jobs:
         working-directory: ./apps/mobile
         run: flutter pub get
       
-      - name: Build APK (with error capture)
+      - name: List project structure
         working-directory: ./apps/mobile
         run: |
-          set -e
-          flutter build apk --debug --target lib/main_dev.dart
+          echo "=== Project structure ==="
+          ls -la
+          echo "=== Lib structure ==="
+          ls -la lib/
+          ls -la lib/src/ || echo "No src directory"
       
-      - name: Check build output
+      - name: Build APK
+        working-directory: ./apps/mobile
+        run: flutter build apk --debug --target lib/main_dev.dart
+      
+      - name: Find APK
         if: always()
         working-directory: ./apps/mobile
         run: |
-          echo "=== Build directory contents ==="
-          find build -name "*.apk" 2>/dev/null || echo "No APK files found"
-          echo "=== Build log ==="
-          cat build.log 2>/dev/null || echo "No build log"
-      
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        if: success()
-        with:
-          name: app-debug
-          path: apps/mobile/build/app/outputs/flutter-apk/app-debug.apk
+          echo "=== Looking for APK ==="
+          find . -name "*.apk" 2>/dev/null || echo "No APK found"
+          ls -la build/ 2>/dev/null || echo "No build directory"
