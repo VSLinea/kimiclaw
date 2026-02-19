@@ -1,6 +1,6 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import { config } from './config';
-import './config/dotenv';
+import { config } from '../config';
+import '../config/dotenv';
 
 export async function registerHealthRoutes(fastify: FastifyInstance): Promise<void> {
   // GET /health - Health check
