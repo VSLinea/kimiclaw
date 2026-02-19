@@ -30,7 +30,6 @@ jobs:
       - name: Fix imports
         working-directory: ./apps/mobile
         run: |
-          # Fix app.dart imports
           sed -i "s|import 'core/|import '../core/|g" lib/src/app.dart
           sed -i "s|import './config|import '../config|g" lib/src/app.dart
       
@@ -38,15 +37,24 @@ jobs:
         working-directory: ./apps/mobile
         run: flutter pub get
       
-      - name: Build APK
+      - name: Build APK (with error capture)
         working-directory: ./apps/mobile
         run: |
-          flutter build apk --debug --target lib/main_dev.dart 2>&1 | tee build.log
-          ls -la build/app/outputs/flutter-apk/ || echo "APK directory not found"
+          set -e
+          flutter build apk --debug --target lib/main_dev.dart
+      
+      - name: Check build output
+        if: always()
+        working-directory: ./apps/mobile
+        run: |
+          echo "=== Build directory contents ==="
+          find build -name "*.apk" 2>/dev/null || echo "No APK files found"
+          echo "=== Build log ==="
+          cat build.log 2>/dev/null || echo "No build log"
       
       - name: Upload APK
         uses: actions/upload-artifact@v4
-        if: always()
+        if: success()
         with:
           name: app-debug
-          path: apps/mobile/build/app/outputs/flutter-apk/*.apk
+          path: apps/mobile/build/app/outputs/flutter-apk/app-debug.apk
