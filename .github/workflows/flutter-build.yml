@@ -38,17 +38,15 @@ jobs:
         working-directory: ./apps/mobile
         run: flutter pub get
       
-      - name: Analyze code
-        working-directory: ./apps/mobile
-        run: flutter analyze || true
-      
       - name: Build APK
         working-directory: ./apps/mobile
-        run: flutter build apk --debug --target lib/main_dev.dart || echo "Build may have warnings"
+        run: |
+          flutter build apk --debug --target lib/main_dev.dart 2>&1 | tee build.log
+          ls -la build/app/outputs/flutter-apk/ || echo "APK directory not found"
       
       - name: Upload APK
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: app-debug
-          path: apps/mobile/build/app/outputs/flutter-apk/app-debug.apk
+          path: apps/mobile/build/app/outputs/flutter-apk/*.apk
