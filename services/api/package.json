@@ -1,0 +1,44 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "Backend API with Fastify, TypeScript, Prisma, Clerk Auth, RBAC, and Audit Logging",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx watch src/index.ts",
+    "db:migrate": "prisma migrate dev",
+    "db:migrate:prod": "prisma migrate deploy",
+    "db:generate": "prisma generate",
+    "db:seed": "tsx src/prisma/seed.ts",
+    "db:studio": "prisma studio",
+    "lint": "eslint src --ext .ts",
+    "typecheck": "tsc --noEmit",
+    "openapi:generate": "tsx scripts/generate-openapi-client.ts"
+  },
+  "dependencies": {
+    "@clerk/fastify": "^1.0.0",
+    "@fastify/cors": "^9.0.1",
+    "@fastify/swagger": "^8.14.0",
+    "@fastify/swagger-ui": "^3.0.0",
+    "@prisma/client": "^5.10.0",
+    "dotenv": "^16.4.5",
+    "fastify": "^4.26.2",
+    "fastify-plugin": "^4.5.1",
+    "jose": "^5.2.3",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.25",
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
+    "eslint": "^8.57.0",
+    "openapi-typescript": "^6.7.5",
+    "prisma": "^5.10.0",
+    "tsx": "^4.7.1",
+    "typescript": "^5.4.2"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "@foundation/mobile",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "analyze": "flutter analyze",
+    "build:android": "flutter build apk --debug",
+    "build:ios": "flutter build ios --simulator",
+    "format": "dart format lib/ test/",
+    "format:check": "dart format --output=none --set-exit-if-changed lib/ test/",
+    "test": "flutter test",
+    "test:coverage": "flutter test --coverage",
+    "typecheck": "dart analyze --fatal-infos",
+    "clean": "flutter clean",
+    "get": "flutter pub get",
+    "generate": "flutter pub run build_runner build --delete-conflicting-outputs",
+    "watch": "flutter pub run build_runner watch --delete-conflicting-outputs",
+    "run:dev": "flutter run --flavor dev --target lib/main_dev.dart",
+    "run:staging": "flutter run --flavor staging --target lib/main_staging.dart",
+    "run:prod": "flutter run --flavor prod --target lib/main_prod.dart"
+  }
+}

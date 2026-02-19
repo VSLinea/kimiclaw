@@ -1,0 +1,91 @@
+{
+  "name": "tasktracker",
+  "version": "1.0.0",
+  "description": "TaskTracker - A task management application with mobile and web clients",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "mobile",
+    "shared"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:mobile:metro\"",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:mobile:metro": "cd mobile && npm start",
+    "dev:mobile:ios": "cd mobile && npm run ios",
+    "dev:mobile:android": "cd mobile && npm run android",
+    "build": "npm run build:backend && npm run build:mobile",
+    "build:backend": "cd backend && npm run build",
+    "build:mobile": "cd mobile && npm run build",
+    "test": "npm run test:backend && npm run test:mobile",
+    "test:backend": "cd backend && npm test",
+    "test:mobile": "cd mobile && npm test",
+    "lint": "npm run lint:backend && npm run lint:mobile",
+    "lint:backend": "cd backend && npm run lint",
+    "lint:mobile": "cd mobile && npm run lint",
+    "lint:fix": "npm run lint:backend:fix && npm run lint:mobile:fix",
+    "lint:backend:fix": "cd backend && npm run lint:fix",
+    "lint:mobile:fix": "cd mobile && npm run lint:fix",
+    "typecheck": "npm run typecheck:backend && npm run typecheck:mobile",
+    "typecheck:backend": "cd backend && npm run typecheck",
+    "typecheck:mobile": "cd mobile && npm run typecheck",
+    "db:migrate": "cd backend && npm run db:migrate",
+    "db:rollback": "cd backend && npm run db:rollback",
+    "db:seed": "cd backend && npm run db:seed",
+    "db:reset": "cd backend && npm run db:reset",
+    "docker:up": "cd infra && docker-compose up -d",
+    "docker:down": "cd infra && docker-compose down",
+    "docker:logs": "cd infra && docker-compose logs -f",
+    "docker:build": "cd infra && docker-compose build",
+    "clean": "npm run clean:backend && npm run clean:mobile && npm run clean:root",
+    "clean:backend": "cd backend && rm -rf node_modules dist coverage",
+    "clean:mobile": "cd mobile && rm -rf node_modules android/build ios/build",
+    "clean:root": "rm -rf node_modules package-lock.json",
+    "postinstall": "npm run install:all",
+    "install:all": "npm run install:backend && npm run install:mobile",
+    "install:backend": "cd backend && npm install",
+    "install:mobile": "cd mobile && npm install",
+    "bootstrap": "npm install && npm run docker:up && npm run db:migrate"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-org/tasktracker.git"
+  },
+  "keywords": [
+    "task",
+    "management",
+    "react-native",
+    "nodejs",
+    "postgresql"
+  ],
+  "author": "Your Organization",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/your-org/tasktracker/issues"
+  },
+  "homepage": "https://github.com/your-org/tasktracker#readme",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  }
+}
