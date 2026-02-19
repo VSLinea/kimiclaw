@@ -17,20 +17,17 @@ jobs:
           flutter-version: '3.16.0'
           channel: 'stable'
       
-      - name: Create Flutter project
-        working-directory: ./apps
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+      
+      - name: Accept Android licenses
+        run: yes | sdkmanager --licenses || true
+      
+      - name: Create Android project
+        working-directory: ./apps/mobile
         run: |
-          # Save our code
-          mv mobile mobile_backup
-          
-          # Create fresh Flutter project
-          flutter create --org com.foundation --project-name mobile mobile
-          
-          # Restore our code
-          rm -rf mobile/lib
-          mv mobile_backup/lib mobile/
-          mv mobile_backup/pubspec.yaml mobile/
-          rm -rf mobile_backup
+          # Create minimal Android structure
+          flutter create --platforms=android . || true
       
       - name: Get dependencies
         working-directory: ./apps/mobile
